@@ -22,9 +22,9 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    const db = client.db('tech-simple');
+    const db = client.db('movieworld');
     const userCollection = db.collection('users');
-    const blogCollection = db.collection('blogs');
+    const moviesCollection = db.collection('movies');
 
 
     // api to save a new user
@@ -67,17 +67,17 @@ async function run() {
     });
 
 
-    // api to save a new blog
-    app.post("/save_blogs", async (req, res) => {
+    // api to save a new movie
+    app.post("/save_movies", async (req, res) => {
       const blog = req.body;
-      const result = await blogCollection.insertOne(blog);
+      const result = await moviesCollection.insertOne(blog);
       res.send(result);
     });
 
-    // api to show all blogs
-    app.get("/show_blogs", async (req, res) => {
+    // api to show all movies
+    app.get("/show_movies", async (req, res) => {
       const query = {};
-      const cursor = blogCollection.find(query);
+      const cursor = moviesCollection.find(query);
       const blogs = await cursor.toArray();
       res.send(blogs);
     });
@@ -93,39 +93,39 @@ async function run() {
           status: "approve",
         },
       };
-      const result = await blogCollection.updateOne(filter, updatedDoc, options);
+      const result = await moviesCollection.updateOne(filter, updatedDoc, options);
       res.send(result);
     });
 
 
-    // show a blog by its id
-    app.get('/blogDetails/:id', async (req, res) => {
+    // show a movie details by its id
+    app.get('/movieDetails/:id', async (req, res) => {
       const id = req.params.id;
 
-      const result = await blogCollection.findOne({ _id: ObjectId(id) });
+      const result = await moviesCollection.findOne({ _id: ObjectId(id) });
       // console.log(result);
       res.send(result);
     });
 
-    // delete a blog
-    app.delete('/deleteBlog/:id', async (req, res) => {
+    // delete a movie
+    app.delete('/deleteMovies/:id', async (req, res) => {
       const id = req.params.id;
 
-      const result = await blogCollection.deleteOne({ _id: ObjectId(id) });
+      const result = await moviesCollection.deleteOne({ _id: ObjectId(id) });
       // console.log(result);
       res.send(result);
     });
 
 
-    // show a certain user blogs
-    app.get("/myPostedBlog", async (req, res) => {
+    // show a certain user added movies
+    app.get("/myPostedMovies", async (req, res) => {
       let query = {};
       if (req.query.email) {
         query = {
           bloggerEmail: req.query.email,
         };
       }
-      const cursor = blogCollection.find(query).sort({ postDate: -1 });
+      const cursor = moviesCollection.find(query).sort({ postDate: -1 });
       const result = await cursor.toArray();
       res.send(result);
     });
