@@ -51,8 +51,6 @@ async function run() {
       res.send(result);
     });
 
-
-
     // api to show all users
     app.get("/show_users", async (req, res) => {
       const query = {};
@@ -61,11 +59,8 @@ async function run() {
       res.send(users);
     });
 
-
-
-
     // api to save a new movie
-    app.post("/save_movies", async (req, res) => {
+    app.post("/save_movie", async (req, res) => {
       const blog = req.body;
       const result = await moviesCollection.insertOne(blog);
       res.send(result);
