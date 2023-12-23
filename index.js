@@ -8,7 +8,7 @@ const cors = require('cors');
 
 app.use(cors());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*',
 }));
 
 app.use(express.json());
@@ -45,7 +45,7 @@ async function run() {
       const result = await userCollection.insertOne(user);
 
       // Set CORS headers
-      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'POST');
 
       res.send(result);
@@ -90,7 +90,7 @@ async function run() {
 
 
     // show a certain user added movies
-    app.get("/myPostedMovies", async (req, res) => {
+    app.get("/myAddedMovies", async (req, res) => {
       let query = {};
       if (req.query.email) {
         query = {
