@@ -61,8 +61,8 @@ async function run() {
 
     // api to save a new movie
     app.post("/save_movie", async (req, res) => {
-      const blog = req.body;
-      const result = await moviesCollection.insertOne(blog);
+      const movie = req.body;
+      const result = await moviesCollection.insertOne(movie);
       res.send(result);
     });
 
@@ -70,8 +70,8 @@ async function run() {
     app.get("/show_movies", async (req, res) => {
       const query = {};
       const cursor = moviesCollection.find(query);
-      const blogs = await cursor.toArray();
-      res.send(blogs);
+      const movies = await cursor.toArray();
+      res.send(movies);
     });
 
 
